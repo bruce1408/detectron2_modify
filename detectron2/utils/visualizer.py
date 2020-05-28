@@ -345,6 +345,29 @@ class Visualizer:
         labels = _create_text_labels(classes, scores, self.metadata.get("thing_classes", None))
         keypoints = predictions.pred_keypoints if predictions.has("pred_keypoints") else None
 
+        tempclass = classes.numpy()
+        print('the tempclass is: ', tempclass)
+
+        result = list(map(lambda x: x == 0, classes))
+        index = list()
+        for i in range(len(tempclass)):
+            if result[i]==True:
+                index.append(i)
+                # print(boxes[i])
+        index_ = torch.LongTensor(index)
+        print(boxes)
+        print(index_)
+        torch.index_select(boxes, dim=0, index=index_)
+        print("before boxex is:", boxes)
+        # print('after boxes is:', boxes_)
+        # print('after boxex_ is: ', torch.tensor(boxes_))
+        # print('result is:', result)
+        # print('boxes is: ', boxes)
+        # print('scores is: ', scores)
+        # print('classes is: ', classes)
+        # print('labels is: ', labels)
+        # print('keypoints is: ', keypoints)
+
         if predictions.has("pred_masks"):
             masks = np.asarray(predictions.pred_masks)
             masks = [GenericMask(x, self.output.height, self.output.width) for x in masks]

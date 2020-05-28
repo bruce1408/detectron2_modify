@@ -182,4 +182,7 @@ class Instances:
         s += "fields=[{}])".format(", ".join((f"{k}: {v}" for k, v in self._fields.items())))
         return s
 
+    def defdict(self):
+        return self._fields
+
     __repr__ = __str__

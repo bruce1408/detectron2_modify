@@ -34,7 +34,7 @@ def get_parser():
     parser = argparse.ArgumentParser(description="Detectron2 demo for builtin models")
     parser.add_argument(
         "--config-file",
-        default="configs/quick_schedules/mask_rcnn_R_50_FPN_inference_acc_test.yaml",
+        default="/home/bruce/PycharmProjects/detectron2/configs/COCO-Detection/faster_rcnn_R_50_FPN_3x.yaml",
         metavar="FILE",
         help="path to config file",
     )
@@ -43,11 +43,13 @@ def get_parser():
     parser.add_argument(
         "--input",
         nargs="+",
+        default=[],
         help="A list of space separated input images; "
         "or a single glob pattern such as 'directory/*.jpg'",
     )
     parser.add_argument(
         "--output",
+        default='outputs',
         help="A file or directory to save output visualizations. "
         "If not given, will show output in an OpenCV window.",
     )
@@ -61,7 +63,7 @@ def get_parser():
     parser.add_argument(
         "--opts",
         help="Modify config options using the command-line 'KEY VALUE' pairs",
-        default=[],
+        default=['MODEL.WEIGHTS', 'detectron2://COCO-InstanceSegmentation/mask_rcnn_R_50_FPN_3x/137849600/model_final_f10217.pkl'],
         nargs=argparse.REMAINDER,
     )
     return parser
@@ -70,14 +72,21 @@ def get_parser():
 if __name__ == "__main__":
     mp.set_start_method("spawn", force=True)
     args = get_parser().parse_args()
+    # print('='*160)
+    # print(args)
+    # print(args.input)
+    # print('='*160)
     setup_logger(name="fvcore")
     logger = setup_logger()
     logger.info("Arguments: " + str(args))
-
+    imgPath = "/home/bruce/PycharmProjects/detectron2/inputs"
+    args.input = [os.path.join(imgPath, i) for i in os.listdir(imgPath)]
+    if os.path.exists(args.output):
+        pass
+    else:
+        os.mkdir(args.output)
     cfg = setup_cfg(args)
-    # print('='*150)
-    # print('the cfg is: ', cfg)
-    # print('='*150)
+
     demo = VisualizationDemo(cfg)
 
     if args.input:
@@ -89,17 +98,26 @@ if __name__ == "__main__":
             img = read_image(path, format="BGR")
             start_time = time.time()
             predictions, visualized_output = demo.run_on_image(img)
-            print('the visualized_output is: ', visualized_output)
-            print('the predictions is: ', predictions)
+            # print('the prediction is: ', predictions)
+            # print('the instance is:', predictions['instances'].has("pred_boxes"))
+            # print('the visualized_output box coordinate is: \n', visualized_output)
+            # print('\n the predictions is: \n', predictions['instances'].defdict()['pred_classes'])
+            # print('visualized output is: ', visualized_output.get_image())
+            # show the result：
+            # cv2.namedWindow(WINDOW_NAME, cv2.WINDOW_NORMAL)  # 调整图像
+            # cv2.imshow(WINDOW_NAME, visualized_output.get_image()[:, :, ::-1])
+            # if cv2.waitKey(0) == 'q':
+            #     continue  # esc to quit
+
             logger.info(
                 "{}: {} in {:.2f}s".format(
                     path,
                     "detected {} instances".format(len(predictions["instances"]))
                     if "instances" in predictions
                     else "finished",
-                    time.time() - start_time,
-                )
-            )
+                    time.time() - start_time,))
+            for i in list(predictions['instances'].defdict()['pred_classes']):
+                print('the ith info is:', i.cpu().numpy())
 
             if args.output:
                 if os.path.isdir(args.output):
@@ -110,7 +128,8 @@ if __name__ == "__main__":
                     out_filename = args.output
                 visualized_output.save(out_filename)
             else:
-                cv2.namedWindow(WINDOW_NAME, cv2.WINDOW_NORMAL)
+                print("show output file ")
+                cv2.namedWindow(WINDOW_NAME, cv2.WINDOW_NORMAL)  # 调整图像
                 cv2.imshow(WINDOW_NAME, visualized_output.get_image()[:, :, ::-1])
                 if cv2.waitKey(0) == 27:
                     break  # esc to quit

@@ -46,6 +46,7 @@ class VisualizationDemo(object):
         """
         vis_output = None
         predictions = self.predictor(image)
+        # print("the predictions is: ", predictions)
         # Convert image from OpenCV BGR format to Matplotlib RGB format.
         image = image[:, :, ::-1]
         visualizer = Visualizer(image, self.metadata, instance_mode=self.instance_mode)
@@ -61,6 +62,7 @@ class VisualizationDemo(object):
                 )
             if "instances" in predictions:
                 instances = predictions["instances"].to(self.cpu_device)
+                # print('the insta',instances)
                 vis_output = visualizer.draw_instance_predictions(predictions=instances)
 
         return predictions, vis_output
