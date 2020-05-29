@@ -49,7 +49,7 @@ def get_parser():
     )
     parser.add_argument(
         "--output",
-        default='outputs',
+        default='/home/bruce/PycharmProjects/autolabel/deteResult1',
         help="A file or directory to save output visualizations. "
         "If not given, will show output in an OpenCV window.",
     )
@@ -79,7 +79,9 @@ if __name__ == "__main__":
     setup_logger(name="fvcore")
     logger = setup_logger()
     logger.info("Arguments: " + str(args))
-    imgPath = "/home/bruce/PycharmProjects/detectron2/inputs"
+    # imgPath = "/home/bruce/PycharmProjects/detectron2/inputs"
+    # imgPath = "/home/bruce/PycharmProjects/keras_ocr/autolabel/imgSimilar"
+    imgPath = "/home/bruce/PycharmProjects/autolabel/videoToimg"
     args.input = [os.path.join(imgPath, i) for i in os.listdir(imgPath)]
     if os.path.exists(args.output):
         pass
@@ -109,15 +111,16 @@ if __name__ == "__main__":
             # if cv2.waitKey(0) == 'q':
             #     continue  # esc to quit
 
-            logger.info(
-                "{}: {} in {:.2f}s".format(
-                    path,
-                    "detected {} instances".format(len(predictions["instances"]))
-                    if "instances" in predictions
-                    else "finished",
-                    time.time() - start_time,))
-            for i in list(predictions['instances'].defdict()['pred_classes']):
-                print('the ith info is:', i.cpu().numpy())
+            # 打印中间信息
+            # logger.info(
+            #     "{}: {} in {:.2f}s".format(
+            #         path,
+            #         "detected {} instances".format(len(predictions["instances"]))
+            #         if "instances" in predictions
+            #         else "finished",
+            #         time.time() - start_time,))
+            # for i in list(predictions['instances'].defdict()['pred_classes']): # 得到label
+            #     print('the ith info is:', i.cpu().numpy())
 
             if args.output:
                 if os.path.isdir(args.output):

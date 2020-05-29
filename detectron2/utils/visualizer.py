@@ -13,7 +13,6 @@ import torch
 from fvcore.common.file_io import PathManager
 from matplotlib.backends.backend_agg import FigureCanvasAgg
 from PIL import Image
-
 from detectron2.structures import BitMasks, Boxes, BoxMode, Keypoints, PolygonMasks, RotatedBoxes
 
 from .colormap import random_color
@@ -346,28 +345,27 @@ class Visualizer:
         keypoints = predictions.pred_keypoints if predictions.has("pred_keypoints") else None
 
         tempclass = classes.numpy()
-        print('the tempclass is: ', tempclass)
+        # print('the tempclass is: ', tempclass)
 
         result = list(map(lambda x: x == 0, classes))
         index = list()
         for i in range(len(tempclass)):
             if result[i]==True:
                 index.append(i)
-                # print(boxes[i])
-        index_ = torch.LongTensor(index)
-        print(boxes)
-        print(index_)
-        torch.index_select(boxes, dim=0, index=index_)
-        print("before boxex is:", boxes)
-        # print('after boxes is:', boxes_)
-        # print('after boxex_ is: ', torch.tensor(boxes_))
-        # print('result is:', result)
-        # print('boxes is: ', boxes)
-        # print('scores is: ', scores)
-        # print('classes is: ', classes)
-        # print('labels is: ', labels)
-        # print('keypoints is: ', keypoints)
+        index_ = torch.tensor(index)
+        print('the person index is', index_)
+        if index_.__len__() != 0:
 
+            # print('origin boxes tensor is: \n', boxes.tensor)
+            originTensor = boxes.tensor
+            chooseTensor = torch.index_select(originTensor, dim=0, index=index_)
+            boxes.tensor = chooseTensor
+            # scores = torch.index_select(scores, dim=0, index=index_)
+            classes = torch.index_select(classes, dim=0, index=index_)
+            labels = [labels[i] for i in index]
+        # print(scores)
+        # print(classes)
+        # print(labels)
         if predictions.has("pred_masks"):
             masks = np.asarray(predictions.pred_masks)
             masks = [GenericMask(x, self.output.height, self.output.width) for x in masks]

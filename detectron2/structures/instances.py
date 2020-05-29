@@ -110,6 +110,7 @@ class Instances:
         ret = Instances(self._image_size)
         for k, v in self._fields.items():
             if hasattr(v, "to"):
+                # print('v is:', k, v)
                 v = v.to(device)
             ret.set(k, v)
         return ret

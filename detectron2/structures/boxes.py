@@ -72,13 +72,13 @@ class BoxMode(IntEnum):
             BoxMode.XYXY_REL,
             BoxMode.XYWH_REL,
         ] and from_mode.value not in [
-            BoxMode.XYXY_REL,
-            BoxMode.XYWH_REL,
-        ], "Relative mode not yet supported!"
+                   BoxMode.XYXY_REL,
+                   BoxMode.XYWH_REL,
+               ], "Relative mode not yet supported!"
 
         if from_mode == BoxMode.XYWHA_ABS and to_mode == BoxMode.XYXY_ABS:
             assert (
-                arr.shape[-1] == 5
+                    arr.shape[-1] == 5
             ), "The last dimension of input shape must be 5 for XYWHA format"
             original_dtype = arr.dtype
             arr = arr.double()
@@ -155,8 +155,8 @@ class Boxes:
             # the inputs (and consequently confuses jit)
             tensor = tensor.reshape((0, 4)).to(dtype=torch.float32, device=device)
         assert tensor.dim() == 2 and tensor.size(-1) == 4, tensor.size()
-
         self.tensor = tensor
+
 
     def clone(self) -> "Boxes":
         """
@@ -169,6 +169,9 @@ class Boxes:
 
     def to(self, device: str) -> "Boxes":
         return Boxes(self.tensor.to(device))
+
+    # def getBox(self):
+    #     return self.tensor
 
     def area(self) -> torch.Tensor:
         """
@@ -251,10 +254,10 @@ class Boxes:
         """
         height, width = box_size
         inds_inside = (
-            (self.tensor[..., 0] >= -boundary_threshold)
-            & (self.tensor[..., 1] >= -boundary_threshold)
-            & (self.tensor[..., 2] < width + boundary_threshold)
-            & (self.tensor[..., 3] < height + boundary_threshold)
+                (self.tensor[..., 0] >= -boundary_threshold)
+                & (self.tensor[..., 1] >= -boundary_threshold)
+                & (self.tensor[..., 2] < width + boundary_threshold)
+                & (self.tensor[..., 3] < height + boundary_threshold)
         )
         return inds_inside
 
