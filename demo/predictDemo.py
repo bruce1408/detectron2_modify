@@ -49,7 +49,7 @@ def get_parser():
     )
     parser.add_argument(
         "--output",
-        default='/home/bruce/PycharmProjects/autolabel/deteResult1',
+        default='/home/bruce/PycharmProjects/autolabel/deteResult3',
         help="A file or directory to save output visualizations. "
         "If not given, will show output in an OpenCV window.",
     )
@@ -63,7 +63,8 @@ def get_parser():
     parser.add_argument(
         "--opts",
         help="Modify config options using the command-line 'KEY VALUE' pairs",
-        default=['MODEL.WEIGHTS', 'detectron2://COCO-InstanceSegmentation/mask_rcnn_R_50_FPN_3x/137849600/model_final_f10217.pkl'],
+        # default=['MODEL.WEIGHTS', 'detectron2://COCO-InstanceSegmentation/mask_rcnn_R_50_FPN_3x/137849600/model_final_f10217.pkl'],
+        default=['MODEL.WEIGHTS', '/home/bruce/PycharmProjects/detectron2/weights/model_final_f10217.pkl'],
         nargs=argparse.REMAINDER,
     )
     return parser
@@ -112,15 +113,15 @@ if __name__ == "__main__":
             #     continue  # esc to quit
 
             # 打印中间信息
-            # logger.info(
-            #     "{}: {} in {:.2f}s".format(
-            #         path,
-            #         "detected {} instances".format(len(predictions["instances"]))
-            #         if "instances" in predictions
-            #         else "finished",
-            #         time.time() - start_time,))
+            logger.info(
+                "{}: {} in {:.2f}s".format(
+                    path,
+                    "detected {} instances".format(len(predictions["instances"]))
+                    if "instances" in predictions
+                    else "finished",
+                    time.time() - start_time,))
             # for i in list(predictions['instances'].defdict()['pred_classes']): # 得到label
-            #     print('the ith info is:', i.cpu().numpy())
+                # print('the ith info is:', i.cpu().numpy())
 
             if args.output:
                 if os.path.isdir(args.output):

@@ -350,10 +350,10 @@ class Visualizer:
         result = list(map(lambda x: x == 0, classes))
         index = list()
         for i in range(len(tempclass)):
-            if result[i]==True:
+            if result[i]:
                 index.append(i)
         index_ = torch.tensor(index)
-        print('the person index is', index_)
+        # print('the person index is', index_)
         if index_.__len__() != 0:
 
             # print('origin boxes tensor is: \n', boxes.tensor)
