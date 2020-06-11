@@ -49,7 +49,7 @@ def get_parser():
     )
     parser.add_argument(
         "--output",
-        default='/home/bruce/PycharmProjects/autolabel/deteResult3',
+        default='/home/bruce/PycharmProjects/autolabel/deteResult5',
         help="A file or directory to save output visualizations. "
         "If not given, will show output in an OpenCV window.",
     )
@@ -64,7 +64,8 @@ def get_parser():
         "--opts",
         help="Modify config options using the command-line 'KEY VALUE' pairs",
         # default=['MODEL.WEIGHTS', 'detectron2://COCO-InstanceSegmentation/mask_rcnn_R_50_FPN_3x/137849600/model_final_f10217.pkl'],
-        default=['MODEL.WEIGHTS', '/home/bruce/PycharmProjects/detectron2/weights/model_final_f10217.pkl'],
+        # default=['MODEL.WEIGHTS', '/home/bruce/PycharmProjects/detectron2/weights/model_final_f10217.pkl'],
+        default=['MODEL.WEIGHTS', "/home/bruce/PycharmProjects/detectron2/weights/model_final_280758.pkl"],
         nargs=argparse.REMAINDER,
     )
     return parser
