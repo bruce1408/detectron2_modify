@@ -49,7 +49,7 @@ def get_parser():
     )
     parser.add_argument(
         "--output",
-        default='/home/bruce/PycharmProjects/autolabel/deteResult5',
+        default='/home/bruce/PycharmProjects/autolabel/deteResult6',
         help="A file or directory to save output visualizations. "
         "If not given, will show output in an OpenCV window.",
     )
@@ -83,7 +83,7 @@ if __name__ == "__main__":
     logger.info("Arguments: " + str(args))
     # imgPath = "/home/bruce/PycharmProjects/detectron2/inputs"
     # imgPath = "/home/bruce/PycharmProjects/keras_ocr/autolabel/imgSimilar"
-    imgPath = "/home/bruce/PycharmProjects/autolabel/videoToimg"
+    imgPath = "/home/bruce/bigVolumn/autolabelData/videoToimgYQ"
     args.input = [os.path.join(imgPath, i) for i in os.listdir(imgPath)]
     if os.path.exists(args.output):
         pass
