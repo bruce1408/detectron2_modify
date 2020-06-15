@@ -155,8 +155,7 @@ class Boxes:
             # the inputs (and consequently confuses jit)
             tensor = tensor.reshape((0, 4)).to(dtype=torch.float32, device=device)
         assert tensor.dim() == 2 and tensor.size(-1) == 4, tensor.size()
-        self.tensor = tensor
-
+        self.tensor = tensor  # 默认有tensor这个属性
 
     def clone(self) -> "Boxes":
         """

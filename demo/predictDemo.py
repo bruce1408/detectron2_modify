@@ -103,15 +103,27 @@ if __name__ == "__main__":
             start_time = time.time()
             predictions, visualized_output = demo.run_on_image(img)
             # print('the prediction is: ', predictions)
-            # print('the instance is:', predictions['instances'].has("pred_boxes"))
+            # print('the instance is:', predictions['instances'].pred_boxes.tensor.cpu().clone().numpy())  # 在boxes的类里面有tensor属性,可以直接利用
+            # print('the predition scores is:', predictions['instances'].scores.cpu().clone().numpy())
+            # print('\n the predictions class is: \n', predictions['instances'].pred_classes.cpu().clone().numpy())
             # print('the visualized_output box coordinate is: \n', visualized_output)
-            # print('\n the predictions is: \n', predictions['instances'].defdict()['pred_classes'])
             # print('visualized output is: ', visualized_output.get_image())
             # show the result：
             # cv2.namedWindow(WINDOW_NAME, cv2.WINDOW_NORMAL)  # 调整图像
             # cv2.imshow(WINDOW_NAME, visualized_output.get_image()[:, :, ::-1])
             # if cv2.waitKey(0) == 'q':
             #     continue  # esc to quit
+
+            # 只选择 0 person 方框和标签
+            boxes_ = predictions['instances'].pred_boxes.tensor.cpu().clone().numpy()
+            scores_ = predictions['instances'].scores.cpu().clone().numpy()
+            classes_ = predictions['instances'].pred_classes.cpu().clone().numpy()
+            index = [i for i in range(classes_.shape[0]) if classes_[i] == 0]
+            boxes_ = boxes_[index]
+            scores_ = scores_[index]
+            classes_ = classes_[index]
+            print(boxes_, classes_, scores_)
+
 
             # 打印中间信息
             logger.info(

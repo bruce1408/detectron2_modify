@@ -328,6 +328,7 @@ class Visualizer:
 
     def draw_instance_predictions(self, predictions):
         """
+        修改此部分, 然后只预测人的情况.
         Draw instance-level prediction results on an image.
 
         Args:
@@ -357,15 +358,15 @@ class Visualizer:
         if index_.__len__() != 0:
 
             # print('origin boxes tensor is: \n', boxes.tensor)
-            originTensor = boxes.tensor
+            originTensor = boxes.tensor  # 原始就有的tensor
             chooseTensor = torch.index_select(originTensor, dim=0, index=index_)
             boxes.tensor = chooseTensor
             # scores = torch.index_select(scores, dim=0, index=index_)
             classes = torch.index_select(classes, dim=0, index=index_)
             labels = [labels[i] for i in index]
-        # print(scores)
-        # print(classes)
-        # print(labels)
+        # print('the scores: ', scores)  # 概率值
+        # print('the classes: ', classes)  # 类别
+        # print('the labels: ', labels)  # 画图的框上面的标签
         if predictions.has("pred_masks"):
             masks = np.asarray(predictions.pred_masks)
             masks = [GenericMask(x, self.output.height, self.output.width) for x in masks]
