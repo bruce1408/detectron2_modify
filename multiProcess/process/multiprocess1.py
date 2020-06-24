@@ -1,9 +1,10 @@
 import time
 import os
-
 """
 只有一个主进程来工作
 """
+
+
 def long_time_task():
     print('当前进程: {}'.format(os.getpid()))
     time.sleep(2)
