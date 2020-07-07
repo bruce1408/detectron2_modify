@@ -2,14 +2,14 @@
 output
 instant_test_output
 inference_test_output
-
-
+outputs
+./tools/output
 *.jpg
 *.png
 *.txt
 *.json
 *.diff
-
+./configs/COCO-Detection/faster_rcnn_R_50_FPN_1x/*
 # compilation and distribution
 __pycache__
 _ext
@@ -44,3 +44,5 @@ wheels/
 /datasets
 /projects/*/datasets
 /models
+configs
+tools/output/
