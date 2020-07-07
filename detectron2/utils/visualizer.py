@@ -346,26 +346,26 @@ class Visualizer:
         keypoints = predictions.pred_keypoints if predictions.has("pred_keypoints") else None
         ############################################################################
         # predict only one class
-        # tempclass = classes.numpy()
-        # result = list(map(lambda x: x == 0, classes))
-        # index = list()
-        # for i in range(len(tempclass)):
-        #     if result[i]:
-        #         index.append(i)
-        # index_ = torch.tensor(index)
-        # # print('the person index is', index_)
-        # if index_.__len__() != 0:
-        #
-        #     # print('origin boxes tensor is: \n', boxes.tensor)
-        #     originTensor = boxes.tensor  # 原始就有的tensor
-        #     chooseTensor = torch.index_select(originTensor, dim=0, index=index_)
-        #     boxes.tensor = chooseTensor
-        #     # scores = torch.index_select(scores, dim=0, index=index_)
-        #     classes = torch.index_select(classes, dim=0, index=index_)
-        #     labels = [labels[i] for i in index]
-        # # print('the scores: ', scores)  # 概率值
-        # # print('the classes: ', classes)  # 类别
-        # # print('the labels: ', labels)  # 画图的框上面的标签
+        tempclass = classes.numpy()
+        result = list(map(lambda x: x == 0, classes))
+        index = list()
+        for i in range(len(tempclass)):
+            if result[i]:
+                index.append(i)
+        index_ = torch.tensor(index)
+        # print('the person index is', index_)
+        if index_.__len__() != 0:
+
+            # print('origin boxes tensor is: \n', boxes.tensor)
+            originTensor = boxes.tensor  # 原始就有的tensor
+            chooseTensor = torch.index_select(originTensor, dim=0, index=index_)
+            boxes.tensor = chooseTensor
+            # scores = torch.index_select(scores, dim=0, index=index_)
+            classes = torch.index_select(classes, dim=0, index=index_)
+            labels = [labels[i] for i in index]
+        # print('the scores: ', scores)  # 概率值
+        # print('the classes: ', classes)  # 类别
+        # print('the labels: ', labels)  # 画图的框上面的标签
         ############################################################################
         if predictions.has("pred_masks"):
             masks = np.asarray(predictions.pred_masks)

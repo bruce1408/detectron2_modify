@@ -59,7 +59,7 @@ class VisualizationDemo(object):
         """
         vis_output = None
         predictions = self.predictor(image)
-        # print("the predictions is: ", predictions)
+        print("the predictions is: ", predictions)
         # Convert image from OpenCV BGR format to Matplotlib RGB format.
         image = image[:, :, ::-1]
         visualizer = Visualizer(image, self.metadata, instance_mode=self.instance_mode)
@@ -286,6 +286,7 @@ def get_parser():
         nargs=argparse.REMAINDER,
     )
     return parser
+
 
 if __name__ == "__main__":
     mp.set_start_method("spawn", force=True)

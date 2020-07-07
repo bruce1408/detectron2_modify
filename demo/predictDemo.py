@@ -49,7 +49,7 @@ def get_parser():
     )
     parser.add_argument(
         "--output",
-        default='/home/bruce/bigVolumn/autolabelData/detectron7',
+        default='/home/bruce/bigVolumn/autolabelData/detectron_fastRcnn101',
         help="A file or directory to save output visualizations. "
         "If not given, will show output in an OpenCV window.",
     )
@@ -66,6 +66,7 @@ def get_parser():
         # default=['MODEL.WEIGHTS', 'detectron2://COCO-InstanceSegmentation/mask_rcnn_R_50_FPN_3x/137849600/model_final_f10217.pkl'],
         # default=['MODEL.WEIGHTS', '/home/bruce/PycharmProjects/detectron2/weights/model_final_f10217.pkl'],
         default=['MODEL.WEIGHTS', "/home/bruce/PycharmProjects/detectron2/weights/model_final_280758.pkl"],
+        # default=['MODEL.WEIGHTS', "/home/bruce/Downloads/model_final_f6e8b1.pkl"],
         nargs=argparse.REMAINDER,
     )
     return parser
@@ -91,7 +92,7 @@ if __name__ == "__main__":
         os.mkdir(args.output)
     cfg = setup_cfg(args)
 
-    demo = VisualizationDemo(cfg)
+    demo = VisualizationDemo(cfg, parallel=True)
 
     if args.input:
         if len(args.input) == 1:
@@ -108,6 +109,7 @@ if __name__ == "__main__":
             # print('\n the predictions class is: \n', predictions['instances'].pred_classes.cpu().clone().numpy())
             # print('the visualized_output box coordinate is: \n', visualized_output)
             # print('visualized output is: ', visualized_output.get_image())
+
             # # show the result：
             # cv2.namedWindow(WINDOW_NAME, cv2.WINDOW_NORMAL)  # 调整图像
             # cv2.imshow(WINDOW_NAME, visualized_output.get_image()[:, :, ::-1])
@@ -122,7 +124,7 @@ if __name__ == "__main__":
             boxes_ = boxes_[index]
             scores_ = scores_[index]
             classes_ = classes_[index]
-            print(boxes_, classes_, scores_)
+            # print(boxes_, classes_, scores_)
 
             # 打印中间信息
             # logger.info(

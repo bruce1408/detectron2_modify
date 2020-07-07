@@ -518,7 +518,7 @@ _C.SOLVER.CHECKPOINT_PERIOD = 5000
 # Number of images per batch across all machines.
 # If we have 16 GPUs and IMS_PER_BATCH = 32,
 # each GPU will see 2 images per batch.
-_C.SOLVER.IMS_PER_BATCH = 16
+_C.SOLVER.IMS_PER_BATCH = 8
 
 # Detectron v1 (and previous detection code) used a 2x higher LR and 0 WD for
 # biases. This is not useful (at least for recent models). You should avoid
