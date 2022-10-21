@@ -6,12 +6,13 @@ outputs
 ./tools/output
 *.jpg
 *.png
-*.txt
+#*.txt
 *.json
 *.diff
 ./configs/COCO-Detection/faster_rcnn_R_50_FPN_1x/*
 # compilation and distribution
 __pycache__
+.gitignore
 _ext
 *.pyc
 *.so
